@@ -19,6 +19,15 @@ def get_frame_counter_text(frame_number):
     )
 
 
+def exception_handler(func):
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as e:
+            print(func, e)
+    return wrapper
+
+
 class Game(object):
     def __init__(self):
         self.frame_number = 1
@@ -52,6 +61,7 @@ class Game(object):
         finally:
             time.sleep(frame_length)
 
+    @exception_handler
     def _process_frame(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
